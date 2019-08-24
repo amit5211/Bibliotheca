@@ -20,11 +20,11 @@ export class AddBookService {
     return this.http.post(ApiEndPoints.saveBook,book);
   }
 
-  getAuthor(){
-    return this.http.get<AuthorModel[]>(ApiEndPoints.getAuthor)
+  getAuthor(searchFilter:string){
+    return this.http.get(ApiEndPoints.getAuthor+"?searchFilter="+searchFilter)
   }
-  getGenre(){
-    return this.http.get<GenreModel[]>(ApiEndPoints.getGenre);
+  getGenre(searchFilter:string){
+    return this.http.get(ApiEndPoints.getGenre+"?searchFilter="+searchFilter);
   }
 
   getBook(){

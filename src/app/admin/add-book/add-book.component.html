@@ -2,79 +2,81 @@
   <form [formGroup]="addBook" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label>Title</label>
-      <input
-        type="text"
-        formControlName="title"
-        class="form-control form-control-sm">
+      <input type="text" formControlName="title" class="form-control form-control-sm">
     </div>
     <div class="form-group">
       <label>Written By</label>
-        <angular2-multiselect class="form-control form-control-sm" [data]="bookAuthors" [(ngModel)]="bookAuthorId"  formControlName="writtenBy"
-        [settings]="dropdownSettings"></angular2-multiselect>
+      <angular2-multiselect class="form-control form-control-sm" [data]="authorList" [(ngModel)]="bookAuthorId"
+        formControlName="writtenBy" [settings]="authorSettings">
+        <c-search>
+          <ng-template>
+            <input type="text" (keyup)="authorSearch($event)" placeholder="Search countries"
+              style="border: none;width: 100%; height: 100%;outline: none;" />
+          </ng-template>
+        </c-search>
+        <c-item>
+          <ng-template let-item="item">
+            <label>{{item.name}}</label>
+          </ng-template>
+        </c-item>
+      </angular2-multiselect>
     </div>
     <div class="form-row">
       <div class="form-group col-md-3">
         <label>ISBN</label>
-        <input
-          type="text"
-          formControlName="isbn"
-          class="form-control form-control-sm">
+        <input type="text" formControlName="isbn" class="form-control form-control-sm">
       </div>
       <div class="form-group col-md-2">
         <label>Price</label>
-        <input
-          type="text"
-          formControlName="price"
-          class="form-control form-control-sm">
+        <input type="text" formControlName="price" class="form-control form-control-sm">
       </div>
       <div class="form-group col-md-4">
         <label>Genre</label>
-        <angular2-multiselect class="form-control form-control-sm" [data]="bookGenres" [(ngModel)]="bookGenreId" formControlName="genre"
-        [settings]="dropdownSettings" ></angular2-multiselect>
+        <angular2-multiselect class="form-control form-control-sm" [data]="genreList" [(ngModel)]="bookGenreId"
+          formControlName="genre" [settings]="genreSettings">
+          <c-search>
+            <ng-template>
+              <input type="text" (keyup)="genreSearch($event)" placeholder="Search countries"
+                style="border: none;width: 100%; height: 100%;outline: none;" />
+            </ng-template>
+          </c-search>
+          <c-item>
+            <ng-template let-item="item">
+              <label> {{item.name}}</label>
+            </ng-template>
+          </c-item>
+        </angular2-multiselect>
       </div>
       <div class="form-group col-md-3">
         <label>Language</label>
-        <select
-           formControlName="language"
-           class="form-control form-control-sm">
+        <select formControlName="language" class="form-control form-control-sm">
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
           <option value="Bengali">Bengali</option>
           <option value="Odia">Odia</option>
           <option value="other">other</option>
         </select>
-       </div>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-7">
         <label>Publisher</label>
-        <input
-          type="text"
-          formControlName="publisher"
-          class="form-control form-control-sm">
+        <input type="text" formControlName="publisher" class="form-control form-control-sm">
       </div>
       <div class="form-group col-md-2">
         <label>Pages</label>
-        <input
-          type="number"
-          formControlName="pages"
-          class="form-control form-control-sm">
+        <input type="number" formControlName="pages" class="form-control form-control-sm">
       </div>
       <div class="form-group col-md-3">
         <label>First Publish</label>
-        <input
-          type="text"
-          formControlName="firstPublished"
-          class="form-control form-control-sm">
+        <input type="text" formControlName="firstPublished" class="form-control form-control-sm">
       </div>
     </div>
     <div class="custom-file">
-      <input
-          type="file"
-          formControlName="bookCover"
-          class="custom-file-input form-control-sm"/>
+      <input type="file" formControlName="bookCover" class="custom-file-input form-control-sm" />
       <label class="custom-file-label" for="bookCover">Choose file...</label>
-    </div><hr>
+    </div>
+    <hr>
     <button type="submit" class="btn btn-sm btn-block btn-secondary">Submit</button>
   </form>
 </div>

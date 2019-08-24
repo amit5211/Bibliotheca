@@ -11,14 +11,17 @@ export class AddBookComponent implements OnInit {
 
   addBook : FormGroup;
   bookGenres = []
-  settings = {};
-  bookAuthors = []
+  authorSettings = {};
+  genreSettings={};
+  bookAuthors = [];
+  authorList=[];
+  genreList=[];
 
   constructor(private bookService:AddBookService) { }
 
   ngOnInit() {
-    this.loadAuthor();
-    this.loadGenre();
+    //this.loadAuthor();
+    //this.loadGenre();
     this.addBook = new FormGroup({
       'isbn': new FormControl(''),
       'title': new FormControl(''),
@@ -31,13 +34,27 @@ export class AddBookComponent implements OnInit {
       'firstPublished': new FormControl(''),
       'bookCover': new FormControl('')
     });
-    this.settings = {
+    this.authorSettings = {
       singleSelection: false,
-      text: "Select Name",
+      text: "Select Author",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       enableSearchFilter: true,
-      classes: "myclass custom-class"
+      classes: "myclass custom-class",
+      primaryKey: "alpha3Code",
+      labelKey: "name",
+      noDataLabel: "Search Author...",
+    };
+
+    this.genreSettings = {
+      singleSelection: false,
+      text: "Select Genre",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      classes: "myclass custom-class",
+      primaryKey: "alpha3Code",
+      noDataLabel: "Search Genre...",
     };
   }
   onSubmit(){
@@ -57,17 +74,36 @@ export class AddBookComponent implements OnInit {
           //this.loading = false;
         });
   }
-  private loadAuthor() {
-    this.bookService.getAuthor().subscribe(bookAuthors => {
-      for (var data of bookAuthors) {
-        this.bookAuthors.push({ "id": data.authorId, "itemName": data.firstName+" "+data.lastName })
+  // private loadAuthor() {
+  //   this.bookService.getAuthor().subscribe(bookAuthors => {
+  //     for (var data of bookAuthors) {
+  //       this.bookAuthors.push({ "id": data.authorId, "itemName": data.firstName+" "+data.lastName })
+  //     }
+  //   });
+  // }
+  // private loadGenre() {
+  //   this.bookService.getGenre().subscribe(bookGenres => {
+  //     for (var data of bookGenres) {
+  //       this.bookGenres.push({ "id": data.genreId, "itemName": data.genre })
+  //     }
+  //   });
+  // }
+
+  private authorSearch(evt: any){
+    this.authorList=[];
+    this.bookService.getAuthor(evt.target.value).subscribe((authorList:any) => {
+      for (var data of authorList.data) {
+        this.authorList.push({ "id": data.AuthorId, "name": data.FirstName+" "+data.LastName })
       }
+      console.log(this.authorList);
     });
   }
-  private loadGenre() {
-    this.bookService.getGenre().subscribe(bookGenres => {
-      for (var data of bookGenres) {
-        this.bookGenres.push({ "id": data.genreId, "itemName": data.genre })
+
+  private genreSearch(evt: any){
+    this.bookService.getGenre(evt.target.value).subscribe((genreList:any) => {
+      this.genreList=[];
+      for (var dat of genreList.data) {
+        this.genreList.push({ "id": dat.GenreId, "name": dat.Genre })
       }
     });
   }
